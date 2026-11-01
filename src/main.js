@@ -2,10 +2,14 @@ import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
 import { getImagesByQuery } from './js/pixabay-api';
-import { createGallery, clearGallery } from './js/render-functions';
+import {
+  createGallery,
+  clearGallery,
+  showLoader,
+  hideLoader,
+} from './js/render-functions';
 
 const form = document.querySelector('.form');
-const loader = document.querySelector('.loader');
 
 form.addEventListener('submit', async event => {
   event.preventDefault();
@@ -21,7 +25,7 @@ form.addEventListener('submit', async event => {
   }
 
   clearGallery();
-  loader.classList.remove('is-hidden');
+  showLoader();
 
   try {
     const data = await getImagesByQuery(query);
@@ -43,6 +47,6 @@ form.addEventListener('submit', async event => {
     });
     console.error(error);
   } finally {
-    loader.classList.add('is-hidden');
+    hideLoader();
   }
 });
